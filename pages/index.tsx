@@ -1,8 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
   return (
     <div className="hero min-h-screen" style={{ backgroundColor: "#AAC4FF" }}>
       <div className="hero-content text-center text-neutral-content">
@@ -15,6 +17,7 @@ export default function Home() {
           <button
             className="btn btn-primary"
             style={{ backgroundColor: "#EEF1FF", color: "black" }}
+            onClick={() => router.push("/planning/train")}
           >
             시작하기
           </button>
