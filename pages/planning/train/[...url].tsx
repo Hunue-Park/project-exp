@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
-
-const Train = () => {
+import { trainResponse } from "../train.model";
+const TrainDepTablePage = () => {
+  const trains = trainResponse;
   const router = useRouter();
   return (
     <div>
@@ -31,34 +32,30 @@ const Train = () => {
           </button>
         </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          textAlign: "center",
-          alignItems: "center",
-          margin: "auto",
-          width: "100%",
-          height: "calc(100vh - 64px)",
-        }}
-      >
-        <div style={{ marginBottom: "12px" }}>지금 있는 역이 어디신가요?</div>
-        <select
-          className="select select-info w-full max-w-xs"
-          onChange={() => {
-            router.push("/planning/train/seoul");
-          }}
-        >
-          <option>선택하기</option>
-          <option>서울역</option>
-          <option>강릉역</option>
-          <option>부산역</option>
-          <option>광주 송정역</option>
-        </select>
+      <div className="overflow-x-auto">
+        <table className="table w-full">
+          <thead>
+            <tr>
+              <th></th>
+              <th>도착역</th>
+              <th>출발 시간</th>
+              <th>열차 종류</th>
+            </tr>
+          </thead>
+          <tbody>
+            {trains.map((train, idx) => (
+              <tr key={train.train_no}>
+                <th>{idx + 1}</th>
+                <td>{train.arr_name}</td>
+                <td>{train.dep_time}</td>
+                <td>{train.train_type_name}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 };
 
-export default Train;
+export default TrainDepTablePage;
