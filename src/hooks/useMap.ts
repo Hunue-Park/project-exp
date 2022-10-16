@@ -5,6 +5,7 @@ function useMap() {
   const [myLocation, setMyLocation] = useState<
     { latitude: number; longitude: number } | string
   >("");
+  const markerRef = useRef<any | null>(null);
 
   useEffect(() => {
     // geolocation 이용 현재 위치 확인, 위치 미동의 시 기본 위치로 지정
@@ -29,7 +30,11 @@ function useMap() {
       // Naver Map 생성
       mapRef.current = new naver.maps.Map("map", {
         center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
-        zoomControl: true,
+        zoomControl: false,
+      });
+      markerRef.current = new naver.maps.Marker({
+        position: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
+        map: mapRef.current,
       });
     }
   }, [myLocation]);

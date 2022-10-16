@@ -42,7 +42,7 @@ const Items = () => {
         }}
       >
         <ul className="menu bg-base-100 w-56 p-2 rounded-box">
-          <li>
+          <li onClick={() => router.push("items/food")}>
             <a>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
