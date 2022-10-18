@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { getReverseGeo } from "./useSearchMap";
 
 function useMap() {
   const mapRef = useRef<HTMLElement | null | any>(null);
@@ -37,6 +38,17 @@ function useMap() {
         map: mapRef.current,
       });
     }
+  }, [myLocation]);
+
+  useEffect(() => {
+    mapRef.current?.addListener("click", (e) => {
+      markerRef.current.setPosition(e.latlng);
+      console.log(e.latlng);
+      const coords = `${e.latlng.x},${e.latlng.y}`;
+      getReverseGeo(coords).then((data) => {
+        console.log(data.data[0], " seeee data");
+      });
+    });
   }, [myLocation]);
 
   return {

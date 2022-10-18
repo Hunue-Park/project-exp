@@ -44,7 +44,14 @@ const TrainDepTablePage = () => {
           </thead>
           <tbody>
             {trains.map((train, idx) => (
-              <tr key={train.train_no}>
+              <tr
+                key={train.train_no}
+                onClick={() => {
+                  if (confirm("이 열차로 결정하시나요?")) {
+                    router.push("/planning/items");
+                  }
+                }}
+              >
                 <th>{idx + 1}</th>
                 <td>{train.arr_name}</td>
                 <td>{train.dep_time}</td>
