@@ -9,8 +9,8 @@ const MapBox = styled.div`
   height: 400px;
 `;
 
-const Map = () => {
-  useMap();
+const Map = ({ setCoords }) => {
+  useMap(setCoords);
   return <MapBox id="map"></MapBox>;
 };
 

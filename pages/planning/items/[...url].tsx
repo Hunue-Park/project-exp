@@ -1,8 +1,17 @@
 import { useRouter } from "next/router";
 import Map from "../../../src/components/molecule/Map/Map";
+import { useState } from "react";
+import { getReverseGeo } from "../../../src/hooks/useSearchMap";
 
 const ItemDetailPage = () => {
   const router = useRouter();
+  const [coords, setCoords] = useState("");
+  const submitCoords = () => {
+    const category = router.query.url[0];
+    getReverseGeo(coords, category).then((data) => {
+      console.log(data.data);
+    });
+  };
   return (
     <div>
       <div className="navbar bg-base-100">
@@ -32,7 +41,26 @@ const ItemDetailPage = () => {
           </button>
         </div>
       </div>
-      <Map />
+      <Map setCoords={setCoords} />
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          paddingTop: "24px",
+        }}
+      >
+        <button
+          className="btn btn-outline"
+          onClick={() => {
+            if (confirm("이곳을 탐색기준으로 설정할까요?")) {
+              submitCoords();
+            }
+          }}
+        >
+          결정하기
+        </button>
+      </div>
     </div>
   );
 };
