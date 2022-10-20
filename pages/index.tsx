@@ -2,9 +2,13 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
+import { useAtom } from "jotai";
+import { updateRandomPlace } from "../src/stores/item";
 
 export default function Home() {
   const router = useRouter();
+  const [randomPlace] = useAtom(updateRandomPlace);
+  console.log(randomPlace);
   return (
     <div className="hero min-h-screen" style={{ backgroundColor: "#AAC4FF" }}>
       <div className="hero-content text-center text-neutral-content">

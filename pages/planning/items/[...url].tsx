@@ -2,14 +2,18 @@ import { useRouter } from "next/router";
 import Map from "../../../src/components/molecule/Map/Map";
 import { useState } from "react";
 import { getReverseGeo } from "../../../src/hooks/useSearchMap";
+import { useAtom } from "jotai";
+import { updateRandomPlace } from "../../../src/stores/item";
 
 const ItemDetailPage = () => {
   const router = useRouter();
   const [coords, setCoords] = useState("");
+  const [, setRandomPlace] = useAtom(updateRandomPlace);
   const submitCoords = () => {
     const category = router.query.url[0];
     getReverseGeo(coords, category).then((data) => {
-      console.log(data.data);
+      setRandomPlace(data.data);
+      router.push("/");
     });
   };
   return (
