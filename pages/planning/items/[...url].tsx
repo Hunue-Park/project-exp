@@ -13,7 +13,7 @@ const ItemDetailPage = () => {
     const category = router.query.url[0];
     getReverseGeo(coords, category).then((data) => {
       setRandomPlace(data.data);
-      router.push("/");
+      router.push("/planning/result");
     });
   };
   return (

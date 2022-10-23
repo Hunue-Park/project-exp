@@ -61,7 +61,7 @@ const Items = () => {
               맛집
             </a>
           </li>
-          <li>
+          <li onClick={() => router.push("items/cafe")}>
             <a>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +80,7 @@ const Items = () => {
               카페
             </a>
           </li>
-          <li>
+          <li onClick={() => router.push("items/looking")}>
             <a>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
