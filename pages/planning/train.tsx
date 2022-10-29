@@ -46,15 +46,15 @@ const Train = () => {
         <div style={{ marginBottom: "12px" }}>지금 있는 역이 어디신가요?</div>
         <select
           className="select select-info w-full max-w-xs"
-          onChange={() => {
-            router.push("/planning/train/seoul");
+          onChange={(event) => {
+            router.push(`/planning/train/${event.target.value}`);
           }}
         >
           <option>선택하기</option>
-          <option>서울역</option>
-          <option>강릉역</option>
-          <option>부산역</option>
-          <option>광주 송정역</option>
+          <option value="seoul">서울역</option>
+          <option value="gangreoung">강릉역</option>
+          <option value="busan">부산역</option>
+          <option value="gwangju">광주 송정역</option>
         </select>
       </div>
     </div>

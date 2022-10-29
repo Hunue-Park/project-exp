@@ -1,8 +1,32 @@
 import { useRouter } from "next/router";
 import { trainResponse } from "../train.model";
+import { getKorails, useKorail } from "../../../src/hooks/useKorail";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import axios from "axios";
+import { parseTime } from "../../../src/utils/parseTime";
 const TrainDepTablePage = () => {
-  const trains = trainResponse;
   const router = useRouter();
+  const { data, isSuccess, isLoading, refetch } = useQuery(
+    ["getKorail"],
+    () =>
+      axios.get(
+        `http://127.0.0.1:1111/korail/get?dep_station=${router.query.url[0]}`
+      ),
+    { enabled: false }
+  );
+  const [trains, setTrains] = useState([]);
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      setTrains(data.data.search_train);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      refetch();
+    }
+  }, [router.isReady, router.query.url]);
   return (
     <div>
       <div className="navbar bg-base-100">
@@ -32,35 +56,39 @@ const TrainDepTablePage = () => {
           </button>
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th></th>
-              <th>도착역</th>
-              <th>출발 시간</th>
-              <th>열차 종류</th>
-            </tr>
-          </thead>
-          <tbody>
-            {trains.map((train, idx) => (
-              <tr
-                key={train.train_no}
-                onClick={() => {
-                  if (confirm("이 열차로 결정하시나요?")) {
-                    router.push("/planning/items");
-                  }
-                }}
-              >
-                <th>{idx + 1}</th>
-                <td>{train.arr_name}</td>
-                <td>{train.dep_time}</td>
-                <td>{train.train_type_name}</td>
+      {isLoading ? (
+        <div>loading...</div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th></th>
+                <th>도착역</th>
+                <th>출발 시간</th>
+                <th>열차 종류</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {trains.map((train, idx) => (
+                <tr
+                  key={train.train_no}
+                  onClick={() => {
+                    if (confirm("이 열차로 결정하시나요?")) {
+                      router.push("/planning/items");
+                    }
+                  }}
+                >
+                  <th>{idx + 1}</th>
+                  <td>{train.arr_name}</td>
+                  <td>{parseTime(train.dep_time)}</td>
+                  <td>{train.train_type_name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
