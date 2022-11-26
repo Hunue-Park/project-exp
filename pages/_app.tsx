@@ -5,7 +5,6 @@ import Script from "next/script";
 
 function MyApp({ Component, pageProps }) {
   const [queryClient] = useState(() => new QueryClient());
-
   return (
     <>
       <Script

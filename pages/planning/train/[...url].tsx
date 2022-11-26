@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { trainResponse } from "../train.model";
+import { trainResponse } from "../../../store/train.model";
 import { getKorails, useKorail } from "../../../src/hooks/useKorail";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -70,21 +70,25 @@ const TrainDepTablePage = () => {
               </tr>
             </thead>
             <tbody>
-              {trains.map((train, idx) => (
-                <tr
-                  key={train.train_no}
-                  onClick={() => {
-                    if (confirm("이 열차로 결정하시나요?")) {
-                      router.push("/planning/items");
-                    }
-                  }}
-                >
-                  <th>{idx + 1}</th>
-                  <td>{train.arr_name}</td>
-                  <td>{parseTime(train.dep_time)}</td>
-                  <td>{train.train_type_name}</td>
-                </tr>
-              ))}
+              {trains.length > 0 &&
+                trains.map((train, idx) => (
+                  <tr
+                    key={train.train_no}
+                    onClick={() => {
+                      if (confirm("이 열차로 결정하시나요?")) {
+                        router.push("/planning/items");
+                      }
+                    }}
+                  >
+                    <th>{idx + 1}</th>
+                    <td>{train.arr_name}</td>
+                    <td>{parseTime(train.dep_time)}</td>
+                    <td>{train.train_type_name}</td>
+                  </tr>
+                ))}
+              {trains.length === 0 && (
+                <td colSpan={3}>지금은 운행하는 열차가 없습니다!</td>
+              )}
             </tbody>
           </table>
         </div>
